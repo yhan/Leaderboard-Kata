@@ -36,5 +36,12 @@ namespace TDDMicroExercises.LeaderBoard
         {
             return _name;
         }
+
+        public int CalculatePointsByRaceThenByDriver(Driver driver)
+        {
+            int points = this.GetPoints(driver);
+            
+            return points;
+        }
     }
 }

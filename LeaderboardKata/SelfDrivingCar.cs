@@ -3,12 +3,8 @@ namespace TDDMicroExercises.LeaderBoard
     public class SelfDrivingCar : Driver
     {
         public SelfDrivingCar(string algorithmVersion, string company)
-            : base(null, company)
+            : base(name: "Self Driving Car - " + company + " (" + algorithmVersion + ")")
         {
-            AlgorithmVersion = algorithmVersion;
-            Name = "Self Driving Car - " + Country + " (" + AlgorithmVersion + ")";
         }
-
-        public string AlgorithmVersion { get; set; }
     }
 }

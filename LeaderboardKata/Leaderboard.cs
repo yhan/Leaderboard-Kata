@@ -29,14 +29,14 @@ namespace TDDMicroExercises.LeaderBoard
             {
                 foreach (var driver in race.Results)
                 {
-                    var points = race.GetPoints(driver);
+                    var pointOfDriver = race.CalculatePointsByRaceThenByDriver(driver);
                     if (results.ContainsKey(driver.Name))
                     {
-                        results[driver.Name] = results[driver.Name] + points;
+                        results[driver.Name] += pointOfDriver;
                     }
                     else
                     {
-                        results.Add(driver.Name, 0 + points);
+                        results[driver.Name] = pointOfDriver;
                     }
                 }
             }
@@ -88,6 +88,34 @@ namespace TDDMicroExercises.LeaderBoard
             var rankings = leaderboard.DriverRankings();
 
             Check.That(rankings).ContainsExactly("Self Driving Car - La française (Algo)", "Seb");
+        }
+
+
+        [Test]
+        public void Returns_the_correct_results_by_driver_When_we_had_2_races_with_one_sef_driving_car()
+        {
+            var selfDrivingDriver = new SelfDrivingCar("Algo", "La française");
+            var secondDriver = new Driver("Seb", "France");
+            var leaderboard = new Leaderboard(new Race("race round 1", selfDrivingDriver, secondDriver), new Race("race round 1", selfDrivingDriver, secondDriver));
+            
+            Dictionary<string, int> results = leaderboard.DriverResults();
+
+            Check.That(results[secondDriver.Name]).IsEqualTo(36);
+            Check.That(results[selfDrivingDriver.Name]).IsEqualTo(50);
+        }
+
+
+        [Test]
+        public void Returns_the_correct_results_by_driver_When_we_had_2_races_with_two_sef_driving_car_with_different_companies()
+        {
+            var selfDrivingDriver = new SelfDrivingCar("Algo", "La française");
+            var secondSelfDriver = new SelfDrivingCar("Algo", "Swissland");
+            var leaderboard = new Leaderboard(new Race("race round 1", selfDrivingDriver, secondSelfDriver), new Race("race round 1", selfDrivingDriver, secondSelfDriver));
+            
+            Dictionary<string, int> results = leaderboard.DriverResults();
+
+            Check.That(results[secondSelfDriver.Name]).IsEqualTo(36);
+            Check.That(results[selfDrivingDriver.Name]).IsEqualTo(50);
         }
 
         [Test]
